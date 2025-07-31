@@ -303,3 +303,5 @@
 (setq +latex-viewers '(Zathura pdftools evince))
 (setq org-latex-to-mathml-convert-command
       "latexmlmath %i --presentationmathml=%o")
+;; Setting transparency
+(add-to-list 'default-frame-alist '(alpha-background . 0.90))
