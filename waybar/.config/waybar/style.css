@@ -107,11 +107,6 @@
     color 0.2s ease-in-out;
 }
 
-/* Simple Hover effect for clock module - BRIGHTER COLOR */
-#clock:hover {
-  background-color: rgba(153, 209, 219, 0.1); /* Brighter highlight */
-}
-
 #custom-pomodoro {
   background-color: #1a1b26; /* Consistent dark background */
   padding: 0.4rem 0.7rem; /* Consistent padding with other modules (e.g., cpu, uptime) */
@@ -185,6 +180,7 @@
     color 0.2s ease-in-out;
 }
 
+#clock:hover,
 #bluetooth:hover,
 #pulseaudio:hover,
 #backlight:hover,

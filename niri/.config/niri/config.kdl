@@ -100,12 +100,12 @@ input {
     position x=1280 y=0
 }
 
-output "DP-2" {
+/-output "DP-2" {
     mode "1920x1080@75.025"
     position x=0 y=0
 }
 
-output "DP-1" {
+/-output "DP-1" {
     mode "1280x1024@60"
     position x=-1920 y=0
 }
@@ -210,7 +210,7 @@ layout {
         // inactive-color "#505050"
 
         width 1
-        active-color "#13171e"
+        active-color "#babbf1"
         inactive-color "#505050"
 
         // Color of the border around windows that request your attention.
@@ -279,6 +279,8 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "brave-browser"
+// Something for wallpaper
+spawn-at-startup "swww-daemon"
 // The following requires mate-polkit package in fedora
 spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
 //spawn-at-startup "/usr/libexec/kf6/polkit-kde-authentication-agent-1"
