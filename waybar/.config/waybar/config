@@ -2,13 +2,14 @@
   "layer": "top",
   "position": "top",
   "margin-bottom": -10,
-  "spacing" : 0,
+  "spacing": 0,
   "modules-left": [
-  "niri/workspaces",
-  "custom/uptime",
-  "memory",
-  "cpu",
-  "niri/window"
+    "niri/workspaces",
+    "user",
+    "temperature",
+    "memory",
+    "cpu",
+    "niri/window"
   ],
 
   "modules-center": ["clock"],
@@ -17,23 +18,60 @@
     "custom/pomodoro",
     "bluetooth",
     "network",
-    "pulseaudio", 
+    "pulseaudio",
     "backlight",
-    "battery",
+    "power-profiles-daemon",
+    "group/group-power",
+    "battery"
   ],
 
+  "group/group-power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "not-power",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/power", // First element is the "group leader" and won't ever be hidden
+      "custom/quit",
+      "custom/lock",
+      "custom/reboot"
+    ]
+  },
+
+  "custom/quit": {
+    "format": "󰗼",
+    "tooltip": false,
+    "on-click": "niri msg action quit"
+  },
+  "custom/lock": {
+    "tooltip": false,
+    "on-click": "swaylock",
+    "format": ""
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "tooltip": false,
+    "on-click": "reboot"
+  },
+  "custom/power": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "shutdown now"
+  },
   "bluetooth": {
     "format": "󰂲",
     "format-on": "{icon}",
-    "format-off": "{icon}", 
-    "format-connected":"{icon}",
-    "format-icons":{
-        "on":"󰂯",
-        "off": "󰂲",
-        "connected": "󰂱",
-        },
+    "format-off": "{icon}",
+    "format-connected": "{icon}",
+    "format-icons": {
+      "on": "󰂯",
+      "off": "󰂲",
+      "connected": "󰂱"
+    },
     "on-click": "blueman-manager",
-    "tooltip-format-connected":"{device_enumerate}"
+    "tooltip-format-connected": "{device_enumerate}"
   },
 
   "custom/music": {
@@ -54,21 +92,21 @@
     "format": "{:%H:%M:%S  -  %A, %d}",
     "interval": 1,
     "calendar": {
-                "mode"          : "year",
-                "mode-mon-col"  : 3,
-                "weeks-pos"     : "left",
-                "on-scroll"     : 1,
-                "format": {
-                          "months":     "<span color='#ffead3'><b>{}</b></span>",
-                          "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-                          "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                          "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-                          "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-                          }
-                },
-    "actions":  {
-                "on-click-right": "mode",
-        }
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "left",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode"
+    }
   },
 
   "network": {
@@ -78,8 +116,7 @@
     "interval": 5,
     "tooltip-format": "{essid} ({signalStrength}%)",
     "on-click": "nm-connection-editor"
-
- },
+  },
 
   "cpu": {
     "interval": 1,
@@ -89,7 +126,7 @@
   },
 
   "memory": {
-    "interval": 30,
+    "interval": 1,
     "format": "  {used:0.1f}G/{total:0.1f}G",
     "tooltip-format": "Memory",
     "on-click": "ghostty -e btop"
@@ -97,18 +134,26 @@
 
   "custom/uptime": {
     "format": "{}",
-    "format-icon": [""], 
+    "format-icon": [""],
     "tooltip": false,
     "interval": 1600,
     "exec": "$HOME/.config/waybar/scripts/uptime.sh"
   },
-  
-  "backlight": {
-        "format": "{icon}  {percent}%",
-        "format-icons": ["","󰃜", "󰃛", "󰃞","󰃝","󰃟","󰃠"],
-        "tooltip": false
+
+  "user": {
+    "format": "{work_H} hours ",
+    "interval": 60,
+    "height": 30,
+    "width": 30,
+    "icon": true
   },
-  
+
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": ["", "󰃜", "󰃛", "󰃞", "󰃝", "󰃟", "󰃠"],
+    "tooltip": false
+  },
+
   "pulseaudio": {
     "format": "{icon}  {volume}%",
     "format-muted": "",
@@ -119,55 +164,68 @@
   },
 
   "battery": {
-        "interval":2,
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon}  {capacity}%",
-        "format-full": "{icon}  {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{icon} {time}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+    "interval": 2,
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-full": "{icon}  {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{icon} {time}",
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    "format-icons": ["", "", "", "", ""]
   },
-  
-  "custom/lock": {
-  "tooltip": false,
-  "on-click": "sh -c '(sleep 0s; hyprlock)' & disown",
-  "format" : ""
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+
+  "temperature": {
+    "thermal-zone": 2,
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C ",
+    "format": "{temperatureC}°C ",
+    "on-click": "ghostty -e btop"
   },
 
   "custom/pomodoro": {
-	"format": "{}",
-	"return-type": "json",
-	"exec": "waybar-module-pomodoro --no-work-icons",
-	"on-click": "waybar-module-pomodoro toggle",
-	"on-click-right": "waybar-module-pomodoro reset",
+    "format": "{}",
+    "return-type": "json",
+    "exec": "waybar-module-pomodoro --no-work-icons",
+    "on-click": "waybar-module-pomodoro toggle",
+    "on-click-right": "waybar-module-pomodoro reset"
   },
 
-	"niri/workspaces": {
-		"format": "{icon}",
-		"format-icons": {
-        "active": "",
-        "default": ""
-			// "default": ""
-		}
-	},
-	"niri/window": {
-		"format": "{title}",
-		"icon": true,
-		"max-length": 20,
-		"icon-size": 20,
-		"rewrite": {
-			"(.*) - Mozilla Firefox": "$1",
-			"(.*) - Visual Studio Code": "$1",
-			"(.*) - Inertia": "🚀 #$1",
-			"^\\s*$": "Dialog"
-		}
-	}
+  "niri/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": ""
+    }
+  },
+  "niri/window": {
+    "format": "{title}",
+    "icon": true,
+    "max-length": 20,
+    "icon-size": 20,
+    "rewrite": {
+      "(.*) - Mozilla Firefox": "$1",
+      "(.*) - Visual Studio Code": "$1",
+      "(.*) - Inertia": "🚀 #$1",
+      "^\\s*$": "Dialog"
+    }
+  }
 }
-
