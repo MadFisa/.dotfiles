@@ -281,8 +281,13 @@ spawn-at-startup "xwayland-satellite"
 spawn-at-startup "brave-browser"
 // Something for wallpaper
 spawn-at-startup "swww-daemon"
+// This for sudo password popup
 // The following requires mate-polkit package in fedora
 spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
+// For notifications
+spawn-at-startup "mako"
+
+
 //spawn-at-startup "/usr/libexec/kf6/polkit-kde-authentication-agent-1"
 environment {
     DISPLAY ":0"
