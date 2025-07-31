@@ -9,33 +9,65 @@
   padding-bottom: 0px;
 }
 
-/* --- Waybar Container --- */
-#waybar {
-  background: transparent;
-  color: #c6d0f5;
-  margin: 0px;
-  font-weight: 500;
-}
-
-/* --- Left Modules (Individual, Fully Rounded Blocks - With Horizontal Spacing & Simple Hover) --- */
 #workspaces,
 #custom-uptime,
 #temperature,
 #cpu,
 #power-profiles-daemon,
 #user,
-#memory {
+#memory,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#network,
+#custom-lock,
+#custom-reboot,
+#custom-power,
+#custom-quit,
+#battery {
   background-color: #1a1b26;
   padding: 0.4rem 0.7rem;
-  margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
+  margin: 5px 0px;
   border-radius: 0;
   box-shadow: none;
   min-width: 0;
   border: none;
-  /* Transition for background-color and color only */
+  opacity: 0.6;
   transition:
     background-color 0.2s ease-in-out,
-    color 0.2s ease-in-out;
+    color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+}
+
+#clock:hover,
+#bluetooth:hover,
+#custom-uptime:hover,
+#power-profiles-daemon:hover,
+#memory:hover,
+#temperature:hover,
+#user:hover,
+#cpu:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#network:hover,
+#custom-lock:hover,
+#custom-reboot:hover,
+#custom-quit:hover,
+#custom-power:hover,
+#battery:hover {
+  background-color: rgb(41, 42, 53);
+  opacity: 1;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+}
+/* --- Waybar Container --- */
+#waybar {
+  background: transparent;
+  color: #c6d0f5;
+  margin: 0px;
+  font-weight: 500;
 }
 
 /* Adjusting CPU to be right most*/
@@ -62,16 +94,6 @@
   margin-right: 5px; /* Spacing after the uptime module */
 }
 
-/* Simple Hover effects for individual left modules - BRIGHTER COLOR */
-#custom-uptime:hover,
-#power-profiles-daemon:hover,
-#memory:hover,
-#temperature:hover,
-#user:hover,
-#cpu:hover {
-  background-color: rgb(41, 42, 53); /* Brighter highlight */
-}
-
 #workspaces button {
   color: #babbf1;
   border-radius: 5px; /* Workspaces buttons are always rounded */
@@ -86,6 +108,12 @@
   color: #99d1db;
   background-color: rgba(153, 209, 219, 0.1);
   box-shadow: inset 0 0 0 1px rgba(153, 209, 219, 0.2);
+  opacity: 1;
+  transition:
+    icon 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
 }
 
 #workspaces button:hover {
@@ -96,6 +124,7 @@
 /* --- Center Module (Individual, Fully Rounded Block - With Simple Hover) --- */
 #clock {
   background-color: #1a1b26;
+  opacity: 0.6;
   padding: 0.4rem 0.7rem;
   margin: 5px 0px;
   border-radius: 6px; /* This module is always rounded */
@@ -109,6 +138,7 @@
 
 #custom-pomodoro {
   background-color: #1a1b26; /* Consistent dark background */
+  opacity: 0.6;
   padding: 0.4rem 0.7rem; /* Consistent padding with other modules (e.g., cpu, uptime) */
   margin: 5px 0px; /* 5px top/bottom margin, 0px left/right (base for individual control) */
   border-radius: 6px; /* Consistent rounded corners with other individual modules */
@@ -142,6 +172,12 @@
   color: #c6d0f5; /* Text color change on hover, consistent with other individual modules */
   outline: 1px solid rgba(255, 255, 255, 0.1); /* Rectangular outline on hover */
   outline-offset: -1px;
+  opacity: 1;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    outline 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
 /* --- Highlighted state for Pomodoro module when running (work or break) --- */
@@ -156,44 +192,17 @@
   ); /* Background color consistent with active workspaces button */
   box-shadow: inset 0 0 0 1px rgba(153, 209, 219, 0.2); /* Inner shadow for outline effect */
   outline: none;
-}
-
-/* --- Right Modules (Single, Seamless Bar ) --- */
-#bluetooth,
-#pulseaudio,
-#backlight,
-#network,
-#custom-lock,
-#custom-reboot,
-#custom-power,
-#custom-quit,
-#battery {
-  background-color: #1a1b26;
-  padding: 0.4rem 0.7rem;
-  margin: 5px 0px;
-  border-radius: 0;
-  box-shadow: none;
-  min-width: 0;
-  border: none;
+  opacity: 1;
   transition:
     background-color 0.2s ease-in-out,
-    color 0.2s ease-in-out;
+    color 0.2s ease-in-out,
+    outline 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
-#clock:hover,
-#bluetooth:hover,
-#pulseaudio:hover,
-#backlight:hover,
-#network:hover,
-#custom-lock:hover,
-#custom-reboot:hover,
-#custom-quit:hover,
-#battery:hover {
-  background-color: rgb(41, 42, 53);
-}
+/* ---Single, Seamless Bar  --- */
 
 #custom-power:hover {
-  background-color: rgb(41, 42, 53);
   color: #e78284;
 }
 
