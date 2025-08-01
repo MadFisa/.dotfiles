@@ -10,8 +10,11 @@ if [ $# -lt 1 ] || [ ! -d "$1" ]; then
 	exit 1
 fi
 
+sleep 1
+
 # See swww-img(1)
-RESIZE_TYPE="fit"
+# RESIZE_TYPE="fit"
+RESIZE_TYPE="stretch"
 export SWWW_TRANSITION_FPS="${SWWW_TRANSITION_FPS:-60}"
 export SWWW_TRANSITION_STEP="${SWWW_TRANSITION_STEP:-2}"
 

@@ -281,6 +281,7 @@ spawn-at-startup "xwayland-satellite"
 spawn-at-startup "brave-browser"
 // Something for wallpaper
 spawn-at-startup "swww-daemon"
+spawn-at-startup "bash" "-c" "~/.config/niri/scripts/niri_startup.sh"
 // This for sudo password popup
 // The following requires mate-polkit package in fedora
 spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
