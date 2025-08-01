@@ -6,6 +6,9 @@ Use GNU stow to use the repo
 - xwayaland-satellite
 - fonts (Fira Code & Noto : Both are nerd fonts )
 - waybar-pomadaro (https://github.com/Andeskjerf/waybar-module-pomodoro)
+- pavucontrol
+- hyprlock
+- btop
 
 # Miscellaneous Instructions
 All the scripts in niri is initiated by niri startup `niri_startup.sh`
