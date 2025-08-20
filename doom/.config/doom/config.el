@@ -305,3 +305,20 @@
       "latexmlmath %i --presentationmathml=%o")
 ;; Setting transparency
 (add-to-list 'default-frame-alist '(alpha-background . 0.90))
+
+(use-package! gptel
+  :config
+  ;; (setq! gptel-api-key "your key")
+  ;; OPTIONAL configuration
+  ;; (setq gptel-model 'claude-3.5-sonnet
+  (setq gptel-model 'gpt-4.1
+        gptel-backend (gptel-make-gh-copilot "Copilot")))
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
