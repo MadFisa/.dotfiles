@@ -73,3 +73,6 @@
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 
 (package! elfeed-goodies)
+
+(package! atomic-chrome
+  :recipe (:host github :repo "alpha22jp/atomic-chrome"))
