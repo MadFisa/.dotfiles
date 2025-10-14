@@ -326,8 +326,19 @@
   ;; (setq! gptel-api-key "your key")
   ;; OPTIONAL configuration
   ;; (setq gptel-model 'claude-3.5-sonnet
-  (setq gptel-model 'gpt-4.1
-        gptel-backend (gptel-make-gh-copilot "Copilot")))
+
+  ;; (setq gptel-model 'gpt-4.1
+  ;;       gptel-backend (gptel-make-gh-copilot "Copilot"))
+
+  ;; OPTIONAL configuration
+  (setq
+   gptel-model 'gemini-2.5-pro
+   gptel-backend (gptel-make-gemini "Gemini"
+                   :key ;; key here
+                   :stream t))
+  (gptel-make-gh-copilot "Copilot")
+
+  )
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -364,3 +375,12 @@
                      ("https://www.techrepublic.com/rssfeeds/topic/open-source/" techrepublic linux)
                      ("https://betanews.com/feed" betanews linux)
                      ("http://lxer.com/module/newswire/headlines.rss" lxer linux))))
+
+;; Putting a global ranibow mode (highlights color codes) except in org-agenda-mode
+;; (define-globalized-minor-mode global-rainbow-mode rainbow-mode
+;;   (lambda ()
+;;     (when (not (memq major-mode
+;;                      (list 'org-agenda-mode)))
+;;       (rainbow-mode 1))))
+;; (global-rainbow-mode 1 )
+(add-hook 'python-mode-hook 'rainbow-mode)
