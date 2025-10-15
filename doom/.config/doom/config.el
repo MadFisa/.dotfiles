@@ -315,7 +315,7 @@
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
-(setq +latex-viewers '(Zathura pdftools evince))
+(setq +latex-viewers '(pdf-tools zathura  evince))
 (setq org-latex-to-mathml-convert-command
       "latexmlmath %i --presentationmathml=%o")
 ;; Setting transparency
