@@ -270,6 +270,16 @@ layout {
     }
 }
 
+workspace "main"
+workspace "browser"
+workspace "code"
+workspace "chat"
+workspace "media"
+
+//workspace "chat" {
+//    open-on-output "Some Company CoolMonitor 1234"
+//}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -650,6 +660,7 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
+    Alt+Shift+P { screenshot; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here

@@ -210,12 +210,19 @@
   },
 
   "niri/workspaces": {
-    "format": "{icon}",
-    "format-icons": {
-      "active": "",
-      "default": ""
-    }
-  },
+	"format": "{icon}",
+	"format-icons": {
+        "main" : "",
+		"browser": "󰖟",
+        "code": "",
+		"chat": "",
+        "media":"",
+
+		// Icons by state
+		"active": "",
+		"default": ""
+	}
+},
   "niri/window": {
     "format": "{title}",
     "icon": true,
