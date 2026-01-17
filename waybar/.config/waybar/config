@@ -12,7 +12,9 @@
     "niri/window"
   ],
 
-  "modules-center": ["clock"],
+  "modules-center": ["clock",
+    "custom/dnd",
+    ],
 
   "modules-right": [
     "custom/pomodoro",
@@ -208,6 +210,19 @@
     "on-click": "waybar-module-pomodoro toggle",
     "on-click-right": "waybar-module-pomodoro reset"
   },
+
+  "custom/dnd": {
+        "interval": "once",
+        "return-type": "json",
+        "format": "{}{icon}",
+        "format-icons": {
+            "default": "",
+            "dnd": ""
+        },
+        "on-click": "makoctl mode -t dnd",
+        "exec": "printf '{\"alt\":\"%s\",\"tooltip\":\"mode: %s\"}' $(makoctl mode | grep -q 'dnd' && echo dnd || echo default) $(makoctl mode | tail -1)",
+        "signal": 11
+    },
 
   "niri/workspaces": {
 	"format": "{icon}",
