@@ -321,6 +321,12 @@
 ;; Setting transparency
 (add-to-list 'default-frame-alist '(alpha-background . 0.90))
 
+(setq auth-sources '("~/.authinfo.gpg"))
+
+(defun my/auth-secret (host user)
+  (or (auth-source-pick-first-password :host host :user user)
+      (error "Missing secret for %s/%s in ~/.authinfo.gpg" host user)))
+
 (use-package! gptel
   :config
   ;; (setq! gptel-api-key "your key")
@@ -329,16 +335,56 @@
 
   ;; (setq gptel-model 'gpt-4.1
   ;;       gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (require 'gptel-integrations) ;; required for mcp.el
+  (require 'gptel-org)
+  (setq gptel-backend (gptel-make-gemini "Gemini"
+                        :key (my/auth-secret "gemini" "apikey")
+                        :stream t))
+  (gptel-make-gh-copilot "Copilot" :stream t)
 
   ;; OPTIONAL configuration
   (setq
    gptel-model 'gemini-2.5-pro
-   gptel-backend (gptel-make-gemini "Gemini"
-                   :key ;; key here
-                   :stream t))
-  (gptel-make-gh-copilot "Copilot")
+   gptel-default-mode 'org-mode
+   gptel-use-curl t
+   gptel-use-tools t
+   gptel-confirm-tool-calls 'always
+   gptel-include-tool-results 'auto)
 
+  ;; Stolen from https://blog.kaorubb.org/en/posts/gpt-mcp-setup/
+  ;; (setq gptel-model 'gpt-4.1
+  ;;       gptel-default-mode 'org-mode
+  ;;       gptel-use-curl t
+  ;;       gptel-use-tools t
+  ;;       gptel-confirm-tool-calls 'always
+  ;;       gptel-include-tool-results 'auto
+  ;;       gptel--system-message (concat gptel--system-message " Make sure to use Japanese language.")
+  ;;       gptel-backend (gptel-make-gh-copilot "Copilot" :stream t))
+  ;; (gptel-make-xai "Grok" :key "your-api-key" :stream t)
+  ;; (gptel-make-deepseek "DeepSeek" :key "your-api-key" :stream t))
   )
+
+(use-package! mcp
+  :after gptel
+  :ensure t
+  :custom
+  (mcp-hub-servers
+     `(("github" . (:command "docker"
+                   :args ("run" "-i" "--rm"
+                         "-e" "GITHUB_PERSONAL_ACCESS_TOKEN"
+                         "ghcr.io/github/github-mcp-server")
+                  :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(my/auth-secret "api.github.com" "mcp"))
+                  ))
+     ("duckduckgo" . (:command "uvx" :args ("duckduckgo-mcp-server")))
+     ("nixos" . (:command "uvx" :args ("mcp-nixos")))
+     ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+     ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,(getenv "HOME"))))
+     ("sequential-thinking" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-sequential-thinking")))
+     ("context7" . (:command "npx" :args ("-y" "@upstash/context7-mcp") :env (:DEFAULT_MINIMUM_TOKENS "6000")))
+     ))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server))
+
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -384,3 +430,16 @@
 ;;       (rainbow-mode 1))))
 ;; (global-rainbow-mode 1 )
 (add-hook 'python-mode-hook 'rainbow-mode)
+
+(after! lsp-mode
+  ;; Enable the breadcrumb in the headerline
+  (setq lsp-headerline-breadcrumb-enable t)
+
+  ;; Customize the segments displayed (project, file, and symbols are common)
+  (setq lsp-headerline-breadcrumb-segments '(project file symbols))
+
+  ;; Enable icons in the breadcrumb (requires all-the-icons fonts)
+  (setq lsp-headerline-breadcrumb-icons-enable t)
+
+  ;; Enable the mode globally for all lsp-managed buffers
+  (lsp-headerline-breadcrumb-mode))

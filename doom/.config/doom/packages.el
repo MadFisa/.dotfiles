@@ -76,3 +76,5 @@
 
 (package! atomic-chrome
   :recipe (:host github :repo "alpha22jp/atomic-chrome"))
+
+(package! mcp)
