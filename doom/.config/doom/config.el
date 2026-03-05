@@ -321,6 +321,14 @@
 ;; Setting transparency
 (add-to-list 'default-frame-alist '(alpha-background . 0.90))
 
+;; Ensure ~/.authinfo.gpg is decrypted by EasyPG and use external pinentry.
+(require 'epa-file)
+(epa-file-enable)
+;; 'loopback' prompts in Emacs minibuffer; 'ask' uses external pinentry
+;; for asking password in an external window for gpg decryption.
+(setq epg-pinentry-mode 'ask
+      epa-pinentry-mode 'ask)
+
 (setq auth-sources '("~/.authinfo.gpg"))
 
 (defun my/auth-secret (host user)
