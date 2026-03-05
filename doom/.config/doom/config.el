@@ -315,6 +315,10 @@
 (setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell (executable-find "fish"))
 (setq-default explicit-shell-file-name (executable-find "fish"))
+;; Prevent Projectile from treating $HOME as a project due to ~/.git.
+(after! projectile
+  (setq projectile-project-root-files-bottom-up
+        (remove ".git" projectile-project-root-files-bottom-up)))
 (setq +latex-viewers '(pdf-tools zathura  evince))
 (setq org-latex-to-mathml-convert-command
       "latexmlmath %i --presentationmathml=%o")
@@ -377,8 +381,8 @@
   :ensure t
   :custom
   (mcp-hub-servers
-     `(("github" . (:command "docker"
-                   :args ("run" "-i" "--rm"
+   `(("github" . (:command "docker"
+                  :args ("run" "-i" "--rm"
                          "-e" "GITHUB_PERSONAL_ACCESS_TOKEN"
                          "ghcr.io/github/github-mcp-server")
                   :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(my/auth-secret "api.github.com" "mcp"))
