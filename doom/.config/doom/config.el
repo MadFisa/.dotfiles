@@ -451,3 +451,8 @@
 
   ;; Enable the mode globally for all lsp-managed buffers
   (lsp-headerline-breadcrumb-mode))
+
+
+;; config for acp and agent-shell
+(require 'acp)
+(require 'agent-shell)

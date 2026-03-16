@@ -78,3 +78,8 @@
   :recipe (:host github :repo "alpha22jp/atomic-chrome"))
 
 (package! mcp)
+
+;; Adding agent-shell and shell-maker for agent development
+(package! shell-maker)
+(package! acp)
+(package! agent-shell)
