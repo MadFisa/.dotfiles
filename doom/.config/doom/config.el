@@ -456,3 +456,4 @@
 ;; config for acp and agent-shell
 (require 'acp)
 (require 'agent-shell)
+(setq agent-shell-session-strategy 'prompt)
