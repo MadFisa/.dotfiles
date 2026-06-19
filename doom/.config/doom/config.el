@@ -468,4 +468,8 @@
         (:prefix ("c" . "cells")
          :desc "Evaluate cell" "r" #'code-cells-eval
          :desc "Next cell"     "j" #'code-cells-forward-cell
-         :desc "Prev cell"     "k" #'code-cells-backward-cell)))
+         :desc "Prev cell"     "k" #'code-cells-backward-cell)
+        :localleader
+        :desc "Prev cell (bracket)" "[" #'code-cells-backward-cell
+        :desc "Next cell (bracket)" "]" #'code-cells-forward-cell
+        ))
