@@ -469,7 +469,12 @@
          :desc "Evaluate cell" "r" #'code-cells-eval
          :desc "Next cell"     "j" #'code-cells-forward-cell
          :desc "Prev cell"     "k" #'code-cells-backward-cell)
+
         :localleader
-        :desc "Prev cell (bracket)" "[" #'code-cells-backward-cell
-        :desc "Next cell (bracket)" "]" #'code-cells-forward-cell
+        :desc "Prev cell (comma)" "[" #'code-cells-backward-cell
+        :desc "Next cell (comma)" "]" #'code-cells-forward-cell
+
+        :leader
+        :desc "Prev cell (space)" "[" #'code-cells-backward-cell
+        :desc "Next cell (space)" "]" #'code-cells-forward-cell
         ))
