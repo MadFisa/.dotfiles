@@ -372,26 +372,26 @@
   ;; (gptel-make-deepseek "DeepSeek" :key "your-api-key" :stream t))
   )
 
-(use-package! mcp
-  :after gptel
-  :ensure t
-  :custom
-  (mcp-hub-servers
-   `(("github" . (:command "docker"
-                  :args ("run" "-i" "--rm"
-                         "-e" "GITHUB_PERSONAL_ACCESS_TOKEN"
-                         "ghcr.io/github/github-mcp-server")
-                  :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(my/auth-secret "api.github.com" "mcp"))
-                  ))
-     ("duckduckgo" . (:command "uvx" :args ("duckduckgo-mcp-server")))
-     ("nixos" . (:command "uvx" :args ("mcp-nixos")))
-     ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-     ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,(getenv "HOME"))))
-     ("sequential-thinking" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-sequential-thinking")))
-     ("context7" . (:command "npx" :args ("-y" "@upstash/context7-mcp") :env (:DEFAULT_MINIMUM_TOKENS "6000")))
-     ))
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server))
+                                        ;(use-package! mcp
+                                        ;  :after gptel
+                                        ;  :ensure t
+                                        ;  :custom
+                                        ;  (mcp-hub-servers
+                                        ;   `(("github" . (:command "docker"
+                                        ;                  :args ("run" "-i" "--rm"
+                                        ;                         "-e" "GITHUB_PERSONAL_ACCESS_TOKEN"
+                                        ;                         "ghcr.io/github/github-mcp-server")
+                                        ;                  :env (:GITHUB_PERSONAL_ACCESS_TOKEN ,(my/auth-secret "api.github.com" "mcp"))
+                                        ;                  ))
+                                        ;     ("duckduckgo" . (:command "uvx" :args ("duckduckgo-mcp-server")))
+                                        ;     ("nixos" . (:command "uvx" :args ("mcp-nixos")))
+                                        ;     ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+                                        ;     ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" ,(getenv "HOME"))))
+                                        ;     ("sequential-thinking" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-sequential-thinking")))
+                                        ;     ("context7" . (:command "npx" :args ("-y" "@upstash/context7-mcp") :env (:DEFAULT_MINIMUM_TOKENS "6000")))
+                                        ;     ))
+                                        ;  :config (require 'mcp-hub)
+                                        ;  :hook (after-init . mcp-hub-start-all-server))
 
 
 ;; accept completion from copilot and fallback to company
@@ -457,3 +457,15 @@
 (require 'acp)
 (require 'agent-shell)
 (setq agent-shell-session-strategy 'prompt)
+
+(use-package! code-cells
+  :hook (python-mode . code-cells-mode-maybe)
+  :config
+  ;; Optional: Bind native Evil keys if you use Evil mode
+  (map! :map code-cells-mode-map
+        :localleader
+        :map python-mode-map
+        (:prefix ("c" . "cells")
+         :desc "Evaluate cell" "r" #'code-cells-eval
+         :desc "Next cell"     "j" #'code-cells-next-cell
+         :desc "Prev cell"     "k" #'code-cells-prev-cell)))
