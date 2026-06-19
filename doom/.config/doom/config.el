@@ -467,5 +467,5 @@
         :map python-mode-map
         (:prefix ("c" . "cells")
          :desc "Evaluate cell" "r" #'code-cells-eval
-         :desc "Next cell"     "j" #'code-cells-next-cell
-         :desc "Prev cell"     "k" #'code-cells-prev-cell)))
+         :desc "Next cell"     "j" #'code-cells-forward-cell
+         :desc "Prev cell"     "k" #'code-cells-backward-cell)))
