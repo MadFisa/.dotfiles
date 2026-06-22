@@ -475,6 +475,7 @@
         :desc "Next cell (comma)" "]" #'code-cells-forward-cell
 
         :leader
+        :desc "Evaluate cell (space)" "r" #'code-cells-eval
         :desc "Prev cell (space)" "[" #'code-cells-backward-cell
         :desc "Next cell (space)" "]" #'code-cells-forward-cell
         ))
