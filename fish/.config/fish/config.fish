@@ -1,3 +1,13 @@
+# Near the top of ~/.config/fish/config.fish
+# Make things work with emacs tramp
+if test "$TERM" = "dumb"
+    function fish_prompt
+        echo '$ '
+    end
+    function fish_right_prompt; end
+    function fish_greeting; end
+end
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -18,3 +28,5 @@ alias ls "lsd"
 
 # remapping lf to lfcd
 alias lf "lfcd"
+
+direnv hook fish | source
