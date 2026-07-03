@@ -1,0 +1,9 @@
+layout_micromamba() {
+  local env_name="$1"
+  # Adjust this path if your micromamba binary is located elsewhere
+  export MAMBA_ROOT_PREFIX="${HOME}/micromamba" 
+  
+  # Tell direnv to inherit the paths from the micromamba environment activation
+  eval "$(micromamba shell hook --shell=bash)"
+  micromamba activate "$env_name"
+}
