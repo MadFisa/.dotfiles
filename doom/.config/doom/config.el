@@ -402,7 +402,14 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+(after! copilot
+  (defun my-disable-copilot-on-remote-files ()
+    "Turn off copilot-mode if the current file is opened over TRAMP."
+    (when (file-remote-p default-directory)
+      (copilot-mode -1)))
 
+  ;; Run this check immediately after opening any file
+  (add-hook 'find-file-hook #'my-disable-copilot-on-remote-files 90))
 ;; rss feeds
 (setq elfeed-goodies/entry-pane-size 0.5)
 (evil-define-key 'normal elfeed-show-mode-map
