@@ -83,4 +83,7 @@
 (package! shell-maker)
 (package! acp)
 (package! agent-shell)
+(package! agent-shell-math-renderer
+  :recipe (:host github
+           :repo "alberti42/agent-shell-math-renderer"))
 (package! code-cells)

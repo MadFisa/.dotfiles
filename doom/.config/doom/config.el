@@ -463,7 +463,21 @@
 ;; config for acp and agent-shell
 (require 'acp)
 (require 'agent-shell)
-(setq agent-shell-session-strategy 'prompt)
+(after! agent-shell
+  (map! :map agent-shell-mode-map
+        :localleader
+        "z" #'agent-shell-ui-toggle-fragment
+        "Z" #'agent-shell-ui-toggle-all-fragments)
+
+  ;; Alternative: Ensure Emacs handles RET instead of Evil capturing it in normal mode
+  (evil-local-set-key 'normal (kbd "RET") 'agent-shell-ui-toggle-fragment)
+  (setq agent-shell-session-strategy 'prompt)
+  )
+
+(use-package! agent-shell-math-renderer
+  :after agent-shell
+  :config
+  (setq agent-shell-math-renderer-enabled t))
 
 (use-package! code-cells
   :hook (python-mode . code-cells-mode-maybe)
