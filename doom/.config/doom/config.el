@@ -502,7 +502,39 @@
         ))
 
 
+;; Graphics in terminal
 (use-package! kitty-graphics
   :init
   (setq kitty-gfx-enable-video t)
-  (kitty-graphics-setup))        ; Auto-detects TTY, Sixel, Kitty, and Daemons
+  ;; Required for special keybinds to work in terminal, otherwise some race condition happens and everything breaks
+  :config
+  (add-hook 'kkp-terminal-setup-complete-hook #'kitty-graphics-setup)
+  )
+
+;; using pdf-tools for pdf viewing in emacs, and doc-view-mode in terminal
+;; 1. Create a dispatcher function that checks the frame type at runtime
+(defun my-fallback-pdf-viewer ()
+  "Use `pdf-view-mode' in GUI, and `doc-view-mode' in TTY."
+  (if (display-graphic-p)
+      (progn
+        ;; Ensure pdf-tools is installed and use it
+        (pdf-tools-install :no-query)
+        (pdf-view-mode))
+    ;; We are in a terminal: force doc-view
+    (require 'doc-view)
+    (doc-view-mode)))
+
+;; 2. Prepend our dispatcher to auto-mode-alist
+(add-to-list 'auto-mode-alist '("\\.[eE]?[pP][dD][fF]\\'" . my-fallback-pdf-viewer))
+
+;; 3. CRITICAL: Override Doom's magic-mode-alist, which otherwise takes precedence!
+(add-to-list 'magic-mode-alist '("%PDF" . my-fallback-pdf-viewer))
+
+(after! doc-view
+  ;; Increase rendering resolution (default is 100)
+  ;; 300 is usually the sweet spot for crisp text without taking forever to load
+  (setq doc-view-resolution 300)
+  
+  ;; (Optional) If you are on Emacs 29+, this enables smooth continuous scrolling
+  (setq doc-view-continuous t))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
