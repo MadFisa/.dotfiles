@@ -87,3 +87,7 @@
   :recipe (:host github
            :repo "alberti42/agent-shell-math-renderer"))
 (package! code-cells)
+
+;; For terminal graphics
+(package! kitty-graphics
+  :recipe (:host github :repo "cashmeredev/kitty-graphics.el"))

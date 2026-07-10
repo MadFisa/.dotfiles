@@ -500,3 +500,9 @@
         :desc "Prev cell (space)" "[" #'code-cells-backward-cell
         :desc "Next cell (space)" "]" #'code-cells-forward-cell
         ))
+
+
+(use-package! kitty-graphics
+  :init
+  (setq kitty-gfx-enable-video t)
+  (kitty-graphics-setup))        ; Auto-detects TTY, Sixel, Kitty, and Daemons
