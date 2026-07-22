@@ -538,3 +538,8 @@
   ;; (Optional) If you are on Emacs 29+, this enables smooth continuous scrolling
   (setq doc-view-continuous t))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; For proper inheritance of env variables while running as systemd service daemon
+(use-package! exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))

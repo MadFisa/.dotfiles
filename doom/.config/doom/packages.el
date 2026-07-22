@@ -91,3 +91,6 @@
 ;; For terminal graphics
 (package! kitty-graphics
   :recipe (:host github :repo "cashmeredev/kitty-graphics.el"))
+
+;; For inheriting variabled from shell when running as systemd-service daemon
+(package! exec-path-from-shell)
