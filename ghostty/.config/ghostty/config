@@ -95,3 +95,13 @@ keybind = vim/i=deactivate_key_table
 
 # Catch unbound keys
 keybind = vim/catch_all=ignore
+
+
+# Trigger behavior: never, unfocused (default), or always
+notify-on-command-finish = unfocused
+
+# Notification style: bell, notify (desktop notification), or both
+notify-on-command-finish-action = notify,bell
+
+# Minimum command execution time before alerting (defaults to 5s)
+notify-on-command-finish-after = 2s
