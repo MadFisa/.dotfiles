@@ -1,2 +1,3 @@
 fish/.config/fish/fishd.tmp.*
 doom/.config/doom/node_modules
+doom/.config/doom/custom.el

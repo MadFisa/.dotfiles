@@ -506,6 +506,8 @@
 (use-package! kitty-graphics
   :init
   (setq kitty-gfx-enable-video t)
+  ;; Force the Kitty protocol (bypasses the KITTY_PID check)
+  (setq kitty-gfx-preferred-protocol 'kitty)
   ;; Required for special keybinds to work in terminal, otherwise some race condition happens and everything breaks
   :config
   (add-hook 'kkp-terminal-setup-complete-hook #'kitty-graphics-setup)
@@ -543,3 +545,37 @@
 (use-package! exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
+
+(defun my/org-git-smart-commit-magit ()
+  "Stage and commit only the current Org file using Magit's correct API."
+  (when (eq major-mode 'org-mode)
+    (let ((filename (buffer-file-name))
+          (org-dir (expand-file-name "~/org/")))
+      
+      (when (and filename 
+                 (string-prefix-p org-dir (expand-file-name filename))
+                 (vc-git-responsible-p filename))
+        
+        (when (y-or-n-p "Commit this file's changes to Git? ")
+          (let ((default-directory org-dir))
+            
+            ;; 1. Load the correct library where 'magit-stage-files' lives
+            (require 'magit-apply nil t)
+            
+            (magit-with-toplevel
+              ;; 2. Use the PLURAL function and wrap filename in a LIST
+              (magit-stage-files (list filename))
+              
+              (let* ((last-msg (magit-git-string "log" "-1" "--pretty=%s"))
+                     (is-auto-commit (and last-msg (string-prefix-p "Auto-commit" last-msg)))
+                     (last-date (magit-git-string "log" "-1" "--date=short" "--pretty=%ad"))
+                     (today (format-time-string "%Y-%m-%d"))
+                     (is-today (string-equal last-date today)))
+                
+                (if (and is-auto-commit is-today)
+                    (magit-call-git "commit" "--amend" "--no-edit")
+                  (magit-call-git "commit" "-m" "Auto-commit: updated notes"))
+                
+                (message "Org file staged and committed via Magit!")))))))))
+
+(add-hook 'after-save-hook #'my/org-git-smart-commit-magit)
