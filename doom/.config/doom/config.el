@@ -579,3 +579,29 @@
                 (message "Org file staged and committed via Magit!")))))))))
 
 (add-hook 'after-save-hook #'my/org-git-smart-commit-magit)
+
+
+(after! ob-jupyter
+  ;; Fix for https://github.com/emacs-jupyter/jupyter/issues/607
+  (defun my/jupyter-org-results-drawer-pre-blank-fix (element)
+    "Advice to ensure the RESULTS drawer has a :pre-blank 0 property.
+This prevents 'wrong-type-argument wholenump nil' errors in newer Org versions."
+    (if (and element (eq (org-element-type element) 'drawer))
+        (progn
+          (org-element-put-property element :pre-blank 0)
+          element)
+      element))
+  
+  (advice-add 'jupyter-org-results-drawer :filter-return #'my/jupyter-org-results-drawer-pre-blank-fix)
+
+  ;; Fix for ANSI codes not being renderd properly https://github.com/emacs-jupyter/jupyter/issues/197 and 380
+  ;; (defun org-babel-jupyter-handle-result-ansi-escapes ()
+  ;;   "Cleanly parse ANSI escape codes specifically inside Jupyter results blocks."
+  ;;   (when (org-babel-jupyter-language-p lang)
+  ;;     (let ((beg (org-babel-where-is-src-block-result))
+  ;;           (end (org-babel-result-end)))
+  ;;       (when (and beg end)
+  ;;         (ansi-color-apply-on-region beg end t))))) ; 't' preserves underlying structures
+
+  ;; (add-hook 'org-babel-after-execute-hook #'org-babel-jupyter-handle-result-ansi-escapes)
+  )
