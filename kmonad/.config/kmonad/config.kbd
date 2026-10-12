@@ -38,13 +38,16 @@
     tpc (tap-next esc ctl)    ;; esc on tap and control on hold
     tpn (tap-next tab @num)    ;; tab on tap and numpad on hold
     tps (tap-hold 180 s @arr)    ;; quote on s and arrow layer on hold
+    tpf (tap-next f lmet)    ;; f on tap and winows on hold
+    tpd (tap-next d lshift)    ;; d on tap and shit on hold
+    tpa (tap-next a lctl)    ;; a on tap and ctl on hold
 )
 
 
 (deflayer base
   esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   @tpn  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @tpc  a    @tps  d  f    g    h    j    k    l    ;    '         ret
+  @tpc  @tpa    @tps  @tpd  @tpf g    h    j    k    l    ;    '         ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt      cmp  rctl
 )
