@@ -695,3 +695,29 @@ window-rule {
     
     open-maximized true
 }
+// Enable blur behind the ghostty terminal.
+window-rule {
+    match app-id="^com.mitchellh.ghostty$"
+    background-effect {
+        blur true
+        // xray true // optional, enabled by default with blur
+    }
+}
+
+// Enable blur behind the fuzzel launcher.
+layer-rule {
+    match namespace="^launcher$"
+
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id="^emacs" // Adjust if your app-id varies (e.g., "^org.gnu.emacs$")
+    
+    background-effect {
+        blur true
+        // xray false // Optional: set to false if you want normal blur instead of static wallpaper blur
+    }
+}
