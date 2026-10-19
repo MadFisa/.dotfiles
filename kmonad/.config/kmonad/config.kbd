@@ -38,9 +38,9 @@
     tpc (tap-next esc ctl)    ;; esc on tap and control on hold
     tpn (tap-next tab @num)    ;; tab on tap and numpad on hold
     tps (tap-hold 180 s @arr)    ;; quote on s and arrow layer on hold
-    tpf (tap-next f lmet)    ;; f on tap and winows on hold
-    tpd (tap-next d lshift)    ;; d on tap and shit on hold
-    tpa (tap-next a lctl)    ;; a on tap and ctl on hold
+    tpf (tap-hold 180 f lmet)    ;; esc on tap and control on hold
+    tpd (tap-hold 180 d lshift)    ;; esc on tap and control on hold
+    tpa (tap-hold 180 a lctl)    ;; esc on tap and control on hold
 )
 
 
