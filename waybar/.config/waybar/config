@@ -220,7 +220,7 @@
             "default": "",
             "dnd": ""
         },
-        "on-click": "makoctl mode -t dnd",
+        "on-click": "makoctl mode -t dnd && pkill -RTMIN+11 waybar",
         "exec": "printf '{\"alt\":\"%s\",\"tooltip\":\"mode: %s\"}' $(makoctl mode | grep -q 'dnd' && echo dnd || echo default) $(makoctl mode | tail -1)",
         "signal": 11
     },
