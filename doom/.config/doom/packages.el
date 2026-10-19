@@ -94,3 +94,10 @@
 
 ;; For inheriting variabled from shell when running as systemd-service daemon
 (package! exec-path-from-shell)
+
+;; Shows documentation (eldoc) in a box.
+(package! eldoc-box)
+
+
+(package! qml-ts-mode
+  :recipe (:host github :repo "xhcoding/qml-ts-mode"))

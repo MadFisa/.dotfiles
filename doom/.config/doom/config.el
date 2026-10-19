@@ -605,3 +605,36 @@ This prevents 'wrong-type-argument wholenump nil' errors in newer Org versions."
 
   ;; (add-hook 'org-babel-after-execute-hook #'org-babel-jupyter-handle-result-ansi-escapes)
   )
+
+;; config for eldoc-box, which shows eldoc information in a popup box instead of the minibuffer
+(use-package! eldoc-box
+  ;; :hook (eldoc-mode . eldoc-box-hover-mode) ;; box at the top corner
+  :hook (eldoc-mode . eldoc-box-hover-at-point-mode) ;; box at point
+  :config
+  ;; Optional: Set a maximum width for the popup box
+  ;; (setq eldoc-box-max-pixel-width 600)
+  )
+
+
+;; set `tramp-direct-async-process' locally in all ssh connections
+(connection-local-set-profile-variables
+ 'remote-direct-async-process
+ '((tramp-direct-async-process . t)))
+(connection-local-set-profiles
+ '(:application tramp :protocol "ssh")
+ 'remote-direct-async-process)
+
+(after! lsp-mode
+  ;; Register qml-ts-mode with lsp-mode
+  (add-to-list 'lsp-language-id-configuration '(qml-ts-mode . "qml-ts"))
+  
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("qmlls"))
+                    :activation-fn (lsp-activate-on "qml-ts")
+                    :server-id 'qmlls))
+  
+  ;; Configure electric indent behavior and start LSP when opening QML files
+  (add-hook 'qml-ts-mode-hook
+            (lambda ()
+              (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
+              (lsp!))))
