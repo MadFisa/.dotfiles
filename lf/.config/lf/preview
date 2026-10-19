@@ -5,29 +5,34 @@ h=$3
 x=$4
 y=$5
 
-filetype="$( file -Lb --mime-type "$file")"
+filetype="$(file -Lb --mime-type "$file")"
 
+# Preview Images
 if [[ "$filetype" =~ ^image ]]; then
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file" < /dev/null > /dev/tty
-    exit 1
+	# --grid=kitty forces the protocol Ghostty supports
+	# -g specifies the cell width and height (w x h)
+	# --upscale allows the image to fill the preview pane if smaller
+	timg --grid=kitty -g "${w}x${h}" --upscale "$file"
+	exit 1
 fi
 
+# Preview Videos (using your vidthumb script cache)
 if [[ "$filetype" =~ ^video ]]; then
-    # vidthumb is from here:
-    # https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
-    kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$(vidthumb "$file")" < /dev/null > /dev/tty
-    exit 1
+	# vidthumb extracts the frame, timg renders the resulting image
+	# vidthumb is from here:
+	# https://raw.githubusercontent.com/duganchen/kitty-pistol-previewer/main/vidthumb
+	timg --grid=kitty -g "${w}x${h}" --upscale "$(vidthumb "$file")"
+	exit 1
 fi
 
 # Highlighting for json
 if [[ "$filetype" =~ ^text ]]; then
-    bat --color always $1
-    exit 1
+	bat --color always $1
+	exit 1
 fi
 
 # Nicer formaating for json files
 if [[ "$filetype" =~ json$ ]]; then
-    jq -C . $1
-    exit 1
+	jq -C . $1
+	exit 1
 fi
-
