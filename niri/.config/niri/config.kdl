@@ -689,6 +689,13 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+
+ // Toggle drawing overlay on/off (avoid binding twice or it will immediately undo itself)
+    Mod+S hotkey-overlay-title="Toggle Wayscriber Overlay" { spawn "wayscriber" "--daemon-toggle"; }
+
+    // Exit light passthrough mode reliably when the overlay no longer has input focus
+    Mod+Shift+S hotkey-overlay-title="Toggle Wayscriber Light Passthrough" { spawn "wayscriber" "--light-toggle"; }
+
 }
 window-rule {
     match title="SolarSoft"
